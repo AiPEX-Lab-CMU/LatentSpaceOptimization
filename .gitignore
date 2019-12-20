@@ -127,3 +127,9 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+#AtlasNet 3D Models
+/AtlasNet/data/boats/*
+/AtlasNet/data/customShapeNet/*
+/AtlasNet/data/ellipsoid_points/*
+/gitignore_stuff/* #backups of training run meta data, analysis of results, etc.

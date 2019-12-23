@@ -13,7 +13,7 @@ from pytictoc import TicToc
 
 #Known Bug: When resuming from pickle file with a population of sparse vectors, the sparisty abruptly dips upon resuming. Unsure why this happens.
 
-def run_evo(data_init=False,sparse=False,lam=1e-5,num_params=1024,load_file = None,maxiter=5,out_name=None,bound=1,pop_size=7,mutation_rate=0.05,recomb_rate=0.9):
+def run_evo(data_init=False,sparse=False,lam=1e-5,num_params=1024,load_file = None,maxiter=5,out_name=None,bound=1,pop_size=50,mutation_rate=0.05,recomb_rate=0.9):
 	if out_name:
 		pickle_file = './pickle/' + out_name + '.pkl'
 	else:
@@ -91,7 +91,7 @@ def run_evo(data_init=False,sparse=False,lam=1e-5,num_params=1024,load_file = No
 				else:
 					v_trial.append(x_t[k])
 			name = "G" + str(i) + "_i" + str(j)
-			points = Generator.generate_return_pts(v_trial)
+			points = 10*Generator.generate_return_pts(v_trial) #multiply by 10 to undo AtlasNet's normalization of PCs
 			worker_args.append((name,points,v_trial,sparse,lam))
                 
 		pool = mp.Pool(num_cores-1)

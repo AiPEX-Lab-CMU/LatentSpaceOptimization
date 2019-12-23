@@ -26,6 +26,8 @@ def plot_data(x_data,y_data,c_data):
 	sc = plt.scatter(x_data,y_data,c=c_data,cmap=cm,vmin=0,vmax=5,s=5)
 	plt.xlabel('X')
 	plt.ylabel('Y')
+	plt.xlim(0,10)
+	plt.ylim(0,10)
 	plt.colorbar(sc)
 	plt.show()
 
@@ -44,21 +46,18 @@ def get_ellipsoid_points(x_scale,y_scale,sqrt_num_points):
 	x = x.reshape(-1, 1).squeeze()
 	y = y.reshape(-1, 1).squeeze()
 	z = z.reshape(-1, 1).squeeze()
-
-
-
 	return x,y,z
 
 def plot_ellipsoid_points(xpts,ypts,zpts):
 	#centers on [2.5,2.5] in the xy plane to be friendlier to matplotlib
-	x_plot = [x + 2.5 for x in xpts]
-	y_plot = [y + 2.5 for y in ypts]
+	#x_plot = [x + 2.5 for x in xpts]
+	#y_plot = [y + 2.5 for y in ypts]
 
 	fig = plt.figure()
 	ax = fig.add_subplot(111, projection='3d')
-	ax.scatter(x_plot, y_plot, zpts, c='b',s=1)
-	ax.set_xlim(0,5)
-	ax.set_ylim(0,5)
+	ax.scatter(xpts, ypts, zpts, c='b',s=1)
+	ax.set_xlim(-10,10)
+	ax.set_ylim(-10,10)
 	plt.show()
 
 def gen_dataset(sqrt_num_points): #this argument will be squared to get the total number of points in the ellipsoid
@@ -73,7 +72,7 @@ def gen_dataset(sqrt_num_points): #this argument will be squared to get the tota
 	return point_data,p_data
 
 def points_to_file(points):
-	save_dir = './data/ellipsoid_points'
+	save_dir = './AtlasNet/data/ellipsoid_points'
 	import pickle
 	for i,p in enumerate(points):
 		ellipsoid = np.asarray(p)

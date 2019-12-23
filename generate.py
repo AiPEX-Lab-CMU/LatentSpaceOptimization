@@ -48,7 +48,6 @@ class Generator:
 		self.points_sphere = np.array(sphere.vertices)
 		self.points_sphere = Variable(torch.FloatTensor(self.points_sphere).transpose(0,1)).contiguous()
 
-
 	def load_training_object(self):
 		point_set, name = self.d.__getitem__(np.random.randint(low=0,high=self.d.__len__()-1))
 		latent_vector = self.network.forward_encoder(point_set.float())
@@ -62,12 +61,12 @@ class Generator:
 		return latent_vector, name
 
 	def generate(self,params,uuids):
-			params = Variable(torch.FloatTensor(params)).unsqueeze(0)
-			genPoints = self.network.forward_inference_from_latent_space(params,self.points_sphere)
-			b = np.zeros((np.shape(self.triangles)[0],4)) + 3
-			b[:,1:] = self.triangles
-			f_name_obj = "%s.obj" % (uuids)
-			self.write_obj(filename=f_name_obj,points=pd.DataFrame(genPoints.cpu().data.squeeze().numpy()),faces=pd.DataFrame(b.astype(int)))
+		params = Variable(torch.FloatTensor(params)).unsqueeze(0)
+		genPoints = self.network.forward_inference_from_latent_space(params,self.points_sphere)
+		b = np.zeros((np.shape(self.triangles)[0],4)) + 3
+		b[:,1:] = self.triangles
+		f_name_obj = "%s.obj" % (uuids)
+		self.write_obj(filename=f_name_obj,points=pd.DataFrame(genPoints.cpu().data.squeeze().numpy()),faces=pd.DataFrame(b.astype(int)))
 
 	def generate_return_pts(self,params):
 		params = Variable(torch.FloatTensor(params)).unsqueeze(0)
@@ -87,33 +86,26 @@ class Generator:
 			for f in faces:
 				ofile.write("f {} {} {}\n".format(f[1]+1,f[2]+1,f[3]+1))
 
-
-	def get_latent(self,exp_name,sparse):
+	def get_latent(self,exp_name,sparse,trials,load_dir):
 		import pickle
 		latent_vecs = []
-		for i in range(5):
-			l = []
-			load_file = './pickle_100_backup/' + exp_name + str(i) + '.pkl'
+		for i in range(trials):
+			load_file = load_dir + exp_name + str(i) + '.pkl'
 			with open(load_file,'rb') as f: 
 				if sparse:
-					latent_vec, _,_,_,_,_ = pickle.load(f)
+					latent_vec,_,_,_,_,_,_,_ = pickle.load(f)
 				else:
-					latent_vec,_,_,_,_ = pickle.load(f)
-				print(np.array(latent_vec).shape)
-				l.append([np.array(latent_vec).squeeze()])
-		latent_vecs.append([l])
-		print(np.array(latent_vecs).shape)
+					latent_vec,_,_,_,_,_,_ = pickle.load(f)
+				latent_vec = np.asarray(latent_vec)
+		latent_vecs.append(latent_vec)
 		return latent_vecs
 
-
-
-
-
-
 if __name__  == '__main__':
+	trials = 5
+	load_file = './pickle_100_backup/'
 	out_dir = './model_samples/'
 	generator = Generator(num_params=NUM_PARAMS)
-	lam_array = [1e-05,5e-05]
+	lam_array = [0.1,1.0]
 	data_key = ['DIF','DIT']
 	sparse_key = ['ST','SF']
 	exp_names = []
@@ -130,7 +122,7 @@ if __name__  == '__main__':
 
 	exp_latents = []
 	for i in range(len(exp_names)):
-		exp_latents.append(generator.get_latent(exp_names[i],sparse_flags[i]))
+		exp_latents.append(generator.get_latent(exp_names[i],sparse_flags[i],trials,load_file))
 
 
 	print(np.array(exp_latents).shape)

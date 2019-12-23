@@ -60,7 +60,6 @@ def getMinVolEllipse(P, tolerance=0.01):
     # Get the values we'd like to return
     U, s, rotation = linalg.svd(A)
     radii = 1.0/np.sqrt(s)
-    radii *= 10
     return radii
 
 def performance_from_radii(rx,ry):

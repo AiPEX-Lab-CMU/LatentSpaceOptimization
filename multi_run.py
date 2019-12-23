@@ -37,7 +37,7 @@ if __name__ == '__main__':
 	parser = argparse.ArgumentParser()
 	parser.add_argument('--lam_array', type=float,nargs = '+', help='lambda values to evaluate')
 	parser.add_argument('--num_params', type=int, default = 1024,  help='size of latent space')
-	parser.add_argument('--maxiter', type=int, default = 1,  help='maximum number of iterations')
+	parser.add_argument('--maxiter', type=int, default = 50,  help='maximum number of iterations')
 	parser.add_argument('--trials', type=int, default = 1,  help='maximum number of iterations')
 	args = parser.parse_args()
 	print(args)

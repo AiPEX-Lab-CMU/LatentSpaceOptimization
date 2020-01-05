@@ -13,11 +13,9 @@ from pytictoc import TicToc
 
 #Known Bug: When resuming from pickle file with a population of sparse vectors, the sparisty abruptly dips upon resuming. Unsure why this happens.
 
-def run_evo(data_init=False,sparse=False,lam=1e-5,num_params=1024,load_file = None,maxiter=5,out_name=None,bound=1,pop_size=50,mutation_rate=0.05,recomb_rate=0.9):
-	if out_name:
-		pickle_file = './pickle/' + out_name + '.pkl'
-	else:
-		pickle_file = './pickle/history.pkl'
+def run_evo(data_init=True,sparse=False,lam=1e-5,num_params=1024,load_file = None,maxiter=5,out_name=None,bound=1,pop_size=120,mutation_rate=0.05,recomb_rate=0.9,norm=0):
+	pickle_file = './pickle/' + out_name + '.pkl'
+	trial = int(out_name[-1])
 	if os.path.exists(pickle_file) == False:
 		Generator = generate.Generator(num_params)
 		start = 0
@@ -29,15 +27,14 @@ def run_evo(data_init=False,sparse=False,lam=1e-5,num_params=1024,load_file = No
 		population = []
 		init_names = []
 		l0_norms = []
-		for i in range(0,pop_size):
-			if data_init:
-				indv, init_name = Generator.load_training_object()
-				init_names.append(init_name)
-			else:
+		if data_init:
+			population, init_names = Generator.load_training_objects(pop_size,trial) #we seed the initialization per trial for fair comparisions
+		else:
+			for i in range(0,pop_size):
 				indv = []
 				for j in range(num_params):
 					indv.append(np.random.normal())
-			population.append(indv)
+				population.append(indv)
 	else:
 		print('Loading from pickle file')
 		with open(pickle_file,'rb') as f:  # Python 3: open(..., 'rb')
@@ -92,7 +89,7 @@ def run_evo(data_init=False,sparse=False,lam=1e-5,num_params=1024,load_file = No
 					v_trial.append(x_t[k])
 			name = "G" + str(i) + "_i" + str(j)
 			points = 10*Generator.generate_return_pts(v_trial) #multiply by 10 to undo AtlasNet's normalization of PCs
-			worker_args.append((name,points,v_trial,sparse,lam))
+			worker_args.append((name,points,v_trial,sparse,lam,norm))
                 
 		pool = mp.Pool(num_cores-1)
 		res = pool.starmap(evalu._EllipsoidEvalFunc, worker_args) #or _EvaluationFunction for boats
@@ -109,18 +106,20 @@ def run_evo(data_init=False,sparse=False,lam=1e-5,num_params=1024,load_file = No
 		curr_scores = [k["output"] for k in current_generation]
 		curr_names = [k["name"] for k in current_generation]
 		curr_l0 = [k["l0"] for k in current_generation]
+		if(sparse):
+			adj_scores = [k["adj_score"] for k in current_generation]
+			adj_learning_curve.append(np.mean(adj_scores))
 		l0_norms.append(np.mean(curr_l0))
 		previous_generation = current_generation[:pop_size]
 		population = [genome["input"] for genome in previous_generation] 
 		if i == 0:
-			init_pop = population  
+			init_pop = population
 
 		#adjust the scores for l_0 norm penalty for learning curve plot for direct comparisons
-		if sparse:  
-			adj_scores = []
-			for j in range(len(curr_scores)):
-				adj_scores.append(curr_scores[j] - lam*curr_l0[j]/num_params)
-			adj_learning_curve.append(np.mean(adj_scores))
+		# if sparse:  
+		# 	adj_scores = []
+		# 	for j in range(len(curr_scores)):
+		# 		adj_scores.append(curr_scores[j] - lam*curr_l0[j]/num_params)
 
 		learning_curve.append(np.mean(curr_scores))
 		if(curr_scores[0] < max_score):
@@ -154,7 +153,7 @@ if __name__ == '__main__':
 	parser.add_argument('--recomb_rate', type=float, default = 0.7,  help='recombination rate')
 	parser.add_argument('--maxiter', type=int, default = 50,  help='maximum number of iterations')
 	parser.add_argument('--load_file', type=str, default = None,  help='your path to the trained model')
-	parser.add_argument('--data_init', type=bool, default=False, help='Whether to use training data as initial latent vectors (random initialization if False)')
+	parser.add_argument('--data_init', type=bool, default=True, help='Whether to use training data as initial latent vectors (random initialization if False)')
 
 	args = parser.parse_args()
 	print(args)

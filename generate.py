@@ -27,19 +27,18 @@ from utils import *
 from ply import *
 
 MODEL_PATH = './AtlasNet/trained_models/modelG_24.pth'
-ATLAS_MODEL_PATH = './AtlasNet/trained_models/ae_atlasnet_ellipsoid.pth'
+ATLAS_MODEL_PATH = './AtlasNet/trained_models/ae_atlasnet_ellipsoid_1024.pth'
 NUM_POINTS = 2500
-NUM_PARAMS = 1024
 NB_PRIMITIVES = 1
 SPHERE_FILE = "sphere2562.obj"
 
 class Generator:
-	def __init__(self, num_params=NUM_PARAMS):  
+	def __init__(self, num_params):  
 		self.num_params = num_params
 		self.d = dataset.Ellipsoid()#dataset.ShapeNet_Boats()
 
 
-		self.network = AE_AtlasNet_SPHERE(num_points = NUM_POINTS, nb_primitives = NB_PRIMITIVES)
+		self.network = AE_AtlasNet_SPHERE(num_points = NUM_POINTS,bottleneck_size=num_params, nb_primitives = NB_PRIMITIVES)
 		self.network.apply(weights_init)
 		self.network.load_state_dict(torch.load(ATLAS_MODEL_PATH, map_location='cpu'))
 		self.network.eval()
@@ -48,11 +47,23 @@ class Generator:
 		self.points_sphere = np.array(sphere.vertices)
 		self.points_sphere = Variable(torch.FloatTensor(self.points_sphere).transpose(0,1)).contiguous()
 
-	def load_training_object(self):
-		point_set, name = self.d.__getitem__(np.random.randint(low=0,high=self.d.__len__()-1))
-		latent_vector = self.network.forward_encoder(point_set.float())
-		latent_vector = latent_vector.squeeze().detach().numpy()
-		return latent_vector, name
+	def load_training_objects(self,num_objects,seed):
+		np.random.seed(seed)
+		indexes = np.random.randint(low=0,high=self.d.__len__()-1,size=num_objects)
+		np.random.seed()
+		latent_vectors = []
+		names = []
+		for i in indexes:
+			point_set, name = self.d.__getitem__(i)
+			latent_vector = self.network.forward_encoder(point_set.float())
+			latent_vector = latent_vector.squeeze().detach().numpy()
+			latent_vectors.append(latent_vector)
+			names.append(name)
+
+		if(num_objects == 1):
+			return latent_vector, name
+		else:
+			return latent_vectors, names	
 
 	def load_specific_training_object(self,idx):
 		point_set, name = self.d.__getitem__(idx)
@@ -96,8 +107,8 @@ class Generator:
 					latent_vec,_,_,_,_,_,_,_ = pickle.load(f)
 				else:
 					latent_vec,_,_,_,_,_,_ = pickle.load(f)
-				latent_vec = np.asarray(latent_vec)
-		latent_vecs.append(latent_vec)
+			latent_vecs.append(latent_vec)
+		latent_vecs = np.asarray(latent_vecs)
 		return latent_vecs
 
 if __name__  == '__main__':

@@ -60,6 +60,10 @@ def getMinVolEllipse(P, tolerance=0.01):
     # Get the values we'd like to return
     U, s, rotation = linalg.svd(A)
     radii = 1.0/np.sqrt(s)
+
+    rot_err = linalg.norm(np.identity(3)-abs(rotation))
+    if(rot_err > 0.05):
+    	radii = np.array([radii[1],radii[0],radii[2]])
     return radii
 
 def performance_from_radii(rx,ry):
@@ -71,9 +75,18 @@ def performance_from_radii(rx,ry):
     return performance
 
 if __name__ == '__main__':
-    load_file = './AtlasNet/data/ellipsoid_points/ellipsoid_2439.pkl'
-    import pickle
-    with open(load_file,'rb') as f:
-        points = pickle.load(f)
-    radii = getMinVolEllipse(P=points)
-    performance = performance_from_radii(radii[0],radii[1])
+    import generate
+    generator = generate.Generator(num_params=1024)
+    latent_vectors, _ = generator.load_training_objects(300)
+    for latent in latent_vectors:
+        points = 10*generator.generate_return_pts(latent)
+        radii = getMinVolEllipse(P=points)
+        performance = performance_from_radii(radii[0],radii[1])
+        print(performance)
+
+    #load_file = './AtlasNet/data/ellipsoid_points/ellipsoid_2439.pkl'
+    #import pickle
+    #with open(load_file,'rb') as f:
+    #    points = pickle.load(f)
+    #radii = getMinVolEllipse(P=points)
+    #performance = performance_from_radii(radii[0],radii[1])

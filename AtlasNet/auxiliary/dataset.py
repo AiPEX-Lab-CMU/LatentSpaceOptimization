@@ -161,12 +161,12 @@ class ShapeNet(data.Dataset):
         return len(self.datapath)
 
 class Ellipsoid(data.Dataset):
-    def __init__(self, rootpc = "./AtlasNet/data/ellipsoid_points/",train = True):
+    def __init__(self, rootpc = "/home/workstation1/Documents/James_C/LatentSpaceOptimization/AtlasNet/data/ellipsoid_points/",train = True):
         self.train = train
         self.rootpc = rootpc
 
         self.fns_pc = sorted(os.listdir(self.rootpc))
-        random.seed(4)
+        random.seed(2)
         random.shuffle(self.fns_pc) #randomize order to distribute clusters evenly across training and testing
         random.seed()
         self.train_len = int(len(self.fns_pc) * 0.8)
@@ -201,6 +201,6 @@ class Ellipsoid(data.Dataset):
 if __name__  == '__main__':
     print('Testing Ellipsoid dataset')
     d = Ellipsoid(train=True)
-    points = d.__getitem__(12)
+    points,name = d.__getitem__(12)
     print(points.shape)
-    #print(d.__len__())
+    print(d.__len__())

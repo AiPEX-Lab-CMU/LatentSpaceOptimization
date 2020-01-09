@@ -4,11 +4,6 @@ import os, shutil
 from pytictoc import TicToc
 from datetime import timedelta
 
-'''
-Todo:
--use same set of initial designs for each trial
-'''
-
 def run_multi(lam_array,num_params=1024,maxiter=50,trials=5):
 	tictoc = TicToc()
 	tictoc.tic() 

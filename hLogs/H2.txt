@@ -1,0 +1,28 @@
+DIF_SF_
+Mean Hausdorffs: 0.07279087266606332 
+STD Hausdorffs: 0.009326816698228841 
+
+DIT_SF_
+Mean Hausdorffs: 0.05359448016222688 
+STD Hausdorffs: 0.0050337570901866765 
+Mean Percent Improvement: -0.26371977420716125 
+Pval Naive: Ttest_indResult(statistic=-4.050048133066943, pvalue=0.0036839648988532315) 
+
+DIT_ST_0.1_
+Mean Hausdorffs: 0.23713940937388722 
+STD Hausdorffs: 0.046008380002118814 
+Mean Percent Improvement: 2.257817919861905 
+Pval TDI: Ttest_indResult(statistic=7.828321306706266, pvalue=5.103132870913919e-05) 
+
+DIT_ST_0.2_
+Mean Hausdorffs: 0.26587382279294536 
+STD Hausdorffs: 0.07592010146918075 
+Mean Percent Improvement: 2.652570893230979 
+Pval TDI: Ttest_indResult(statistic=5.644420974907972, pvalue=0.0004845493690904306) 
+
+DIT_ST_0.4_
+Mean Hausdorffs: 0.24660778067368652 
+STD Hausdorffs: 0.07167426604512747 
+Mean Percent Improvement: 2.387894273572302 
+Pval TDI: Ttest_indResult(statistic=5.377340577638148, pvalue=0.0006637455271292974) 
+

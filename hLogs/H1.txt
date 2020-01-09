@@ -1,0 +1,45 @@
+DIF_SF_
+Mean Initial Score: 0.7130555555555556 
+STD Initial Score: 0.031495639517907494 
+Mean Final Score: 0.2419027777777778 
+STD Final Score: 0.015048122396309815 
+Mean Percent Improvement: 0.6279661016949152 
+STD Percent Improvement: 0.0 
+Pval Inital-Final Difference: Ttest_indResult(statistic=-30.182000188029466, pvalue=1.5760228206037613e-09) 
+
+DIT_SF_
+Mean Initial Score: 0.37238888888888894 
+STD Initial Score: 0.0533306856981704 
+Mean Final Score: 0.20012500000000003 
+STD Final Score: 0.00010206207261596812 
+Mean Percent Improvement: 0.38645078824030676 
+STD Percent Improvement: 0.0 
+Pval Inital-Final Difference: Ttest_indResult(statistic=-7.222728438653761, pvalue=9.042249441888444e-05) 
+
+DIT_ST_0.1_
+Mean Initial Score: 0.3448333333333333 
+STD Initial Score: 0.027371670269337466 
+Mean Final Score: 0.20980555555555558 
+STD Final Score: 0.004778544835066508 
+Mean Percent Improvement: 0.33088888888888884 
+STD Percent Improvement: 0.0 
+Pval Inital-Final Difference: Ttest_indResult(statistic=-10.866443522603614, pvalue=4.5495702737496755e-06) 
+
+DIT_ST_0.2_
+Mean Initial Score: 0.3571944444444445 
+STD Initial Score: 0.03567962294962153 
+Mean Final Score: 0.21295833333333336 
+STD Final Score: 0.005462696164232088 
+Mean Percent Improvement: 0.3255813953488373 
+STD Percent Improvement: 0.0 
+Pval Inital-Final Difference: Ttest_indResult(statistic=-8.93526369931093, pvalue=1.9540630081633816e-05) 
+
+DIT_ST_0.4_
+Mean Initial Score: 0.3548611111111111 
+STD Initial Score: 0.018268403540026002 
+Mean Final Score: 0.21844444444444444 
+STD Final Score: 0.005196857728177069 
+Mean Percent Improvement: 0.3216494845360824 
+STD Percent Improvement: 0.0 
+Pval Inital-Final Difference: Ttest_indResult(statistic=-16.060318083632584, pvalue=2.2668233084729804e-07) 
+

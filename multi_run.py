@@ -14,12 +14,12 @@ def run_multi(lam_array,num_params=1024,maxiter=50,trials=5):
 	tictoc.tic() 
 	for i in range(trials):
 		out_name = 'DIF_SF_' + str(i)
-		# print('Run:' + out_name)
-		# re.run_evo(data_init=False,sparse=False,out_name=out_name,num_params=num_params,maxiter=maxiter)
+		print('Run:' + out_name)
+		re.run_evo(data_init=False,sparse=False,out_name=out_name,num_params=num_params,maxiter=maxiter)
 
-		# out_name = 'DIT_SF_' + str(i)
-		# print('Run:' + out_name)
-		# re.run_evo(data_init=True,sparse=False,out_name=out_name,num_params=num_params,maxiter=maxiter)
+		out_name = 'DIT_SF_' + str(i)
+		print('Run:' + out_name)
+		re.run_evo(data_init=True,sparse=False,out_name=out_name,num_params=num_params,maxiter=maxiter)
 
 		for lam in lam_array:
 				norm = 0
@@ -39,7 +39,7 @@ if __name__ == '__main__':
 	parser.add_argument('--lam_array', type=float,nargs = '+', help='lambda values to evaluate')
 	parser.add_argument('--num_params', type=int, default = 1024,  help='size of latent space')
 	parser.add_argument('--maxiter', type=int, default = 35,  help='maximum number of iterations')
-	parser.add_argument('--trials', type=int, default = 1,  help='maximum number of iterations')
+	parser.add_argument('--trials', type=int, default = 5,  help='maximum number of iterations')
 	args = parser.parse_args()
 	print(args)
 

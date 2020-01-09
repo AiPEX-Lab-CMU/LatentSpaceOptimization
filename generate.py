@@ -108,7 +108,7 @@ class Generator:
 				else:
 					latent_vec,_,_,_,_,_,_ = pickle.load(f)
 			latent_vecs.append(latent_vec)
-		latent_vecs = np.asarray(latent_vecs)
+		#latent_vecs = np.asarray(latent_vecs)
 		return latent_vecs
 
 if __name__  == '__main__':

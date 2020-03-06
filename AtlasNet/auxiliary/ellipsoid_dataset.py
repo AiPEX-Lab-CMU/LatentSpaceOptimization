@@ -89,29 +89,29 @@ if __name__ == '__main__':
 	sys.path.append('/home/workstation1/Documents/James_C/LatentSpaceOptimization/')
 	import ellipsoid_eval as ee
 
-	# x_data,y_data,perform_data = gen_params(250)
-	# point_data = []
-	# for i in range(len(perform_data)):
-	# 	print(i)
-	# 	x_scale = x_data[i]
-	# 	y_scale = y_data[i]
-	# 	x,y,z = get_ellipsoid_points(x_scale,y_scale,50)
-	# 	points = np.column_stack((x,y,z))
-	# 	point_data.append(points)
-	# points_to_file(point_data)
-	
 	x_data,y_data,perform_data = gen_params(250)
-	x_radiis = []
-	y_radiis = []
-	performances = []
+	point_data = []
 	for i in range(len(perform_data)):
-		x_radii = x_data[i]
-		y_radii = y_data[i]
-		#x,y,z = get_ellipsoid_points(x_scale,y_scale,50)
-		#points = 10*np.column_stack((x,y,z))
-		#radii = ee.getMinVolEllipse(P=points)
-		performance = ee.performance_from_radii(x_radii,y_radii)
-		x_radiis.append(x_radii)
-		y_radiis.append(y_radii)
-		performances.append(performance)
-	plot_data(x_radiis,y_radiis,performances)
+		#print(i)
+		x_scale = x_data[i]
+	 	y_scale = y_data[i]
+	 	x,y,z = get_ellipsoid_points(x_scale,y_scale,50)
+	 	points = np.column_stack((x,y,z))
+	 	point_data.append(points)
+	points_to_file(point_data)
+	
+# 	x_data,y_data,perform_data = gen_params(250)
+# 	x_radiis = []
+# 	y_radiis = []
+# 	performances = []
+# 	for i in range(len(perform_data)):
+# 		x_radii = x_data[i]
+# 		y_radii = y_data[i]
+# 		#x,y,z = get_ellipsoid_points(x_scale,y_scale,50)
+# 		#points = 10*np.column_stack((x,y,z))
+# 		#radii = ee.getMinVolEllipse(P=points)
+# 		performance = ee.performance_from_radii(x_radii,y_radii)
+# 		x_radiis.append(x_radii)
+# 		y_radiis.append(y_radii)
+# 		performances.append(performance)
+# 	plot_data(x_radiis,y_radiis,performances)

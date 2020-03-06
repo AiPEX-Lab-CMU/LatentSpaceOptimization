@@ -86,7 +86,7 @@ def points_to_file(points):
 if __name__ == '__main__':
 	import os
 	import sys
-	sys.path.append('/home/workstation1/Documents/James_C/LatentSpaceOptimization/')
+	sys.path.append('../../')
 	import ellipsoid_eval as ee
 
 	x_data,y_data,perform_data = gen_params(250)

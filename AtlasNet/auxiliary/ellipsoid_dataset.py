@@ -11,14 +11,14 @@ def gen_params(num_gens,cov=0.05):
 	np.random.seed(1)
 	for i in range(5):
 		for j in range(5):
-			if (i != 0 and i !=4) or (j!=0 and j!=4): #don't generate the corner
-				x = (2*i)+1
-				y = (2*j)+1
-				for k in range(num_gens):
-					d = np.random.multivariate_normal(mean=[x,y],cov=cov*np.identity(2),size=1)[0].tolist()
-					x_data.append(d[0])
-					y_data.append(d[1])
-					p_data.append(performances[i][j])
+			#if (i != 0 and i !=4) or (j!=0 and j!=4): #don't generate the corner
+			x = (2*i)+1
+			y = (2*j)+1
+			for k in range(num_gens):
+				d = np.random.multivariate_normal(mean=[x,y],cov=cov*np.identity(2),size=1)[0].tolist()
+				x_data.append(d[0])
+				y_data.append(d[1])
+				p_data.append(performances[i][j])
 	np.random.seed()
 	return x_data, y_data, p_data
 

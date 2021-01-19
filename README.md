@@ -1,5 +1,5 @@
 # LatentSpaceOptimization
-Latent Space Optimization over AtlasNet Point Cloud Generation
+Latent Space Optimization over AtlasNet Point Cloud Generation. Paper available [here](https://www.cambridge.org/core/journals/design-science/article/sparsity-preserving-genetic-algorithm-for-extracting-diverse-functional-3d-designs-from-deep-generative-neural-networks/AFF95B3DAC5446D2A4BE150B1DC71DD7).
 
 # Steps to Run Ellipsoid Experiments
 1. Generate the ellipsoid data set with the command
